@@ -623,6 +623,10 @@ func parseConfig(loc location.Location, opts options.Options) (interface{}, erro
 			cfg.AccessKeySecret = os.Getenv("ALIBABA_CLOUD_ACCESS_KEY_SECRET")
 		}
 
+		if cfg.StsToken == "" {
+			cfg.StsToken = os.Getenv("ALIBABA_CLOUD_STS_TOKEN")
+		}
+
 		if err := opts.Apply(loc.Scheme, &cfg); err != nil {
 			return nil, err
 		}

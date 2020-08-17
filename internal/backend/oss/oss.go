@@ -30,7 +30,13 @@ var _ restic.Backend = &Backend{}
 func open(cfg Config, rt http.RoundTripper) (*Backend, error) {
 	debug.Log("open, config %#v", cfg)
 
-	client, err := oss.New(cfg.Endpoint, cfg.AccessKeyID, cfg.AccessKeySecret)
+	var client *oss.Client
+	var err error
+	if cfg.StsToken != "" {
+		client, err = oss.New(cfg.Endpoint, cfg.AccessKeyID, cfg.AccessKeySecret, oss.SecurityToken(cfg.StsToken))
+	} else {
+		client, err = oss.New(cfg.Endpoint, cfg.AccessKeyID, cfg.AccessKeySecret)
+	}
 	if err != nil {
 		return nil, errors.Wrap(err, "oss.NewWithAK")
 	}

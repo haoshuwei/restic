@@ -13,6 +13,7 @@ type Config struct {
 	Endpoint        string
 	AccessKeyID     string
 	AccessKeySecret string
+	StsToken        string
 	Bucket          string
 	Prefix          string
 
